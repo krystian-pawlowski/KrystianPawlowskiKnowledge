@@ -1,0 +1,1 @@
+../../../.cursor/rules/workstation-setup.md
