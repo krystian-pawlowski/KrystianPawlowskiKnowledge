@@ -23,9 +23,9 @@ Everything SOLARSPLIT lives under `~/solarsplit-dev/`. There is no `~/Code/GitHu
 
 | Path | What |
 |---|---|
-| `~/solarsplit-dev` | Root opened in Claude Code and Cursor. Not a git repo. Carries `CLAUDE.md`, `.claude/settings.local.json` and `.cursor/rules/`, one `.mdc` symlink per rule, shared, Android and personal |
+| `~/solarsplit-dev` | Root opened in Claude Code and Cursor. Not a git repo. Carries `CLAUDE.md`, `.claude/settings.local.json` and `.cursor/rules/`, one `.mdc` symlink per rule, shared and personal |
 | `~/solarsplit-dev/code` | Flat parent of every repo. This is the folder to pass, absolute, to the shared setup script, and the folder the sync scripts deduce from their own location |
-| `~/solarsplit-dev/code/SolarsplitAndroidApp` | Android app. Its rule is `.cursor/rules/solarsplit-android.md`, path-scoped, and the skill of the same name is generated from `claude/skills-manifest.json` of the repo by the shared sync |
+| `~/solarsplit-dev/code/SolarsplitAndroidApp` | Android app. Its rule `solarsplit-android` lives in SolarsplitKnowledge like the iOS ones since 09.09.2026, the repo carries no rule of its own |
 | `~/solarsplit-dev/code/SolarsplitWorkspace.xcworkspace` | Xcode workspace over the Swift repos |
 | `~/solarsplit-dev/old/solarsplitWebFrontend[old]` | Former repo of the personal GitHub account, parked, not in use |
 
@@ -61,16 +61,15 @@ The same rules feed Claude Code and Cursor, and could feed Codex, as `agent-cont
 |---|---|---|
 | `rules/solarsplit-core.md` | SolarsplitKnowledge | every session |
 | `rules/personal-dispatcher.md` | this repo | every session |
-| `rules/swift-gotchas-index.md`, `fluent-migrations.md`, `simulator-navigation.md` | SolarsplitKnowledge | on matching files only |
-| `rules/solarsplit-android.md` | SolarsplitAndroidApp | on Kotlin, Gradle and manifest files only |
-| `skills/<name>`, the shared ones plus `solarsplit-android` and `workstation-setup` | `claude/skills/<name>` of each repo | on trigger or `/name` |
+| `rules/swift-gotchas-index.md`, `fluent-migrations.md`, `simulator-navigation.md`, `solarsplit-android.md` | SolarsplitKnowledge | on matching files only |
+| `skills/<name>`, the shared ones plus `workstation-setup` | `claude/skills/<name>` of each repo | on trigger or `/name` |
 | `CLAUDE.md` | plain file written by the shared setup script | every session |
 
 `~/solarsplit-dev/CLAUDE.md` loads on top of that in every session opened under the workspace root. Cap on the permanent layer: 50 KB cumulated. The personal setup script prints the current figure at the end of every run, the reference measurement is the script of `agent-context-mechanics` section 8, to run from `code/`.
 
 **Hooks: none.** `~/.claude/settings.json` has no `hooks` key, so the shared guards (`hook-sync-skills-guard.sh`, `hook-journal-guard.py`, `hook-outbound-guard.py`) are not active here. After editing a rule, run the sync by hand, or the personal setup script, which does it.
 
-**Cursor, workspace root `~/solarsplit-dev/.cursor/rules/`.** One `.mdc` symlink per rule, shared, Android and personal. Neither setup script links the shared rules for Cursor, the loop is in `~/solarsplit-dev/CLAUDE.md` and in the README of SolarsplitKnowledge. Cursor reads the frontmatter at window launch only, reload the window and open a new conversation after any change.
+**Cursor, workspace root `~/solarsplit-dev/.cursor/rules/`.** One `.mdc` symlink per rule, shared and personal. Neither setup script links the shared rules for Cursor, the loop is in `~/solarsplit-dev/CLAUDE.md` and in the README of SolarsplitKnowledge. Cursor reads the frontmatter at window launch only, reload the window and open a new conversation after any change.
 
 **Codex.** Not installed, no `codex` binary and no `~/.codex`. `python3 SolarsplitKnowledge/scripts/sync-codex-layer.py --write` would produce `AGENTS.md`, `hooks.json` and the skill links from the same sources, personal dispatcher included, since it deduces the permanent layer from `~/.claude/rules/`.
 
@@ -83,7 +82,7 @@ sh ~/solarsplit-dev/code/SolarsplitKnowledge/scripts/setup-claude-code.sh /Users
 sh ~/solarsplit-dev/code/KrystianPawlowskiKnowledge/scripts/setup-claude-code-personal.sh
 ```
 
-The argument of the first script must be absolute, a relative path yields links that resolve from `~/.claude/rules/` and are all broken. Both scripts print a verification of every target at the end, read it rather than assume it passed. The first one also links the Android rule and skill because `SolarsplitAndroidApp` sits in the same parent folder.
+The argument of the first script must be absolute, a relative path yields links that resolve from `~/.claude/rules/` and are all broken. Both scripts print a verification of every target at the end, read it rather than assume it passed.
 
 ## 6. Adding a personal rule or skill
 
