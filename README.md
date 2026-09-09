@@ -19,8 +19,8 @@ Same mechanics as the shared repo, same scripts, one reader.
 The shared layer first, then this one. The shared script needs the parent folder as an absolute argument, this one derives everything from its own location. Both print a verification at the end that is worth reading.
 
 ```bash
-sh ~/dev/solarsplit/code/SolarsplitXcode/SolarsplitKnowledge/scripts/setup-claude-code.sh /Users/omso/dev/solarsplit/code/SolarsplitXcode
-sh ~/dev/solarsplit/code/SolarsplitXcode/KrystianPawlowskiKnowledge/scripts/setup-claude-code-personal.sh
+sh ~/solarsplit-dev/code/SolarsplitKnowledge/scripts/setup-claude-code.sh /Users/solarsplit/solarsplit-dev/code
+sh ~/solarsplit-dev/code/KrystianPawlowskiKnowledge/scripts/setup-claude-code-personal.sh
 ```
 
 Then open a new Claude Code session. In Cursor, reload the window and open a new conversation, it reads the rule frontmatter at launch only.
@@ -41,10 +41,8 @@ This repo is never cloned by anyone else and is never referenced in a shared rep
 
 ## Remote
 
-Local only for now. To back it up, create a private repository under the account of your choice and push. Example with the work account, through the REST API because the `gh` CLI cannot reach the network from Claude Code shells on this machine:
+Local only for now. To back it up, create a private repository under the account of your choice and push. With the work account, the `gh` CLI does it in one step from this folder:
 
 ```bash
-curl -s -H "Authorization: token $GH_TOKEN" -H "Accept: application/vnd.github+json" https://api.github.com/user/repos -d '{"name":"KrystianPawlowskiKnowledge","private":true}'
-git remote add origin https://github.com/krystian-pawlowski/KrystianPawlowskiKnowledge.git
-git push -u origin main
+gh repo create KrystianPawlowskiKnowledge --private --source . --push
 ```

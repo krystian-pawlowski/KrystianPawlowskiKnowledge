@@ -38,18 +38,15 @@ The shared rules assume `~/Code/GitHub`, which does not exist here. Translate ev
 
 | Shared rules say | Here |
 |---|---|
-| `~/Code/GitHub/<repo>` for iOS, backend, Swift packages, knowledge repos | `~/dev/solarsplit/code/SolarsplitXcode/<repo>` |
-| `~/Code/GitHub/SolarsplitAndroidApp` | `~/dev/solarsplit/code/SolarsplitAndroidApp` |
-| workspace root carrying `.cursor/rules/` | `~/dev/solarsplit/code`, not a git repo, also carries `CLAUDE.md` and `.claude/` |
-| parent folder passed to the setup and sync scripts | `/Users/omso/dev/solarsplit/code/SolarsplitXcode`, absolute |
+| `~/Code/GitHub/<repo>`, whatever the repo | `~/solarsplit-dev/code/<repo>`, every repo cloned flat, no intermediate folder |
+| workspace root carrying `.cursor/rules/` | `~/solarsplit-dev`, not a git repo, also carries `CLAUDE.md` and `.claude/` |
+| parent folder passed to the setup and sync scripts | `/Users/solarsplit/solarsplit-dev/code`, absolute |
 
-A repo from the shared workspace map that is not under `SolarsplitXcode/` is not cloned here, not misplaced. `SolarsplitPrivate`, Wilfried's personal repos and their journals are not on this machine and a shared rule that points to them leads nowhere. The full list of what is cloned, and everything else about this machine, is in `workstation-setup`.
+A repo from the shared workspace map that is not in `code/` is not cloned here, not misplaced. `SolarsplitPrivate`, Wilfried's personal repos and their journals are not on this machine and a shared rule that points to them leads nowhere. The full list of what is cloned, and everything else about this machine, is in `workstation-setup`.
 
 ## 4. GitHub and git identity
 
-Two accounts. `krystian-pawlowski` is the work account, member of the SOLARSPLIT and HelveticApp organisations. `omsomso` is personal and owns `solarsplitWebFrontend`. The token in every shell belongs to the work account, so git on a personal-account repo runs as `env -u GH_TOKEN -u GITHUB_TOKEN git ...`.
-
-The `gh` CLI cannot open network sockets from Claude Code shells on this machine, so `gh auth status` lies and `gh pr`, `gh issue`, `gh run` are unavailable. Use `git` and `curl` against the REST API instead, recipes in `workstation-setup`. Commits under `~/dev/solarsplit/` carry k.pawlowski@solarsplit.com through an `includeIf` in `~/.gitconfig`, elsewhere krypaw@ik.me.
+One account on this machine, `krystian-pawlowski`, the work account, member of the SOLARSPLIT and HelveticApp organisations. The `gh` CLI is logged in with it and works from Claude Code shells, sandbox included: `gh pr`, `gh api`, `gh repo` are available, and git authenticates over HTTPS through the same login, no token to manage by hand and none exported in the shell. `~/.ssh` is unreachable from Claude Code, so remotes stay on HTTPS. Every repo commits as k.pawlowski@solarsplit.com through `~/.gitconfig`. Details and checks in `workstation-setup`.
 
 ## 5. Confidentiality of this tier
 
@@ -61,11 +58,11 @@ Same mechanics as `solarsplit-core` section 6. Claude Code: a skill, triggered b
 
 | Resource | Load when the task touches |
 |---|---|
-| `workstation-setup` | Paths and cloned repos on this Mac, git identities, GitHub accounts, token storage and rotation, the `gh` CLI failure and its workaround, the Claude Code and Cursor layers installed here and how to reinstall them, how to add a personal rule or skill |
+| `workstation-setup` | Paths and cloned repos on this Mac, git identity, the GitHub account and how `gh` authenticates git, what Claude Code shells cannot reach, the Android and Xcode toolchains, the Claude Code and Cursor layers installed here and how to reinstall them, how to add a personal rule or skill |
 
 ## 7. Maintaining this repo
 
-Repo: `~/dev/solarsplit/code/SolarsplitXcode/KrystianPawlowskiKnowledge`, same conventions as SolarsplitKnowledge, full procedure in `workstation-setup` section 5. Risk level in the sense of `solarsplit-core` section 3: low, no auto-deploy and a single reader, so commit and push without asking once a remote exists. The short form:
+Repo: `~/solarsplit-dev/code/KrystianPawlowskiKnowledge`, same conventions as SolarsplitKnowledge, full procedure in `workstation-setup` section 6. Risk level in the sense of `solarsplit-core` section 3: low, no auto-deploy and a single reader, so commit and push without asking once a remote exists. The short form:
 
 1. Edit or create the real `.md` in `.cursor/rules/`, with its relative `.mdc` symlink next to it.
 2. Permanent content goes in this file. Path-scoped content gets `globs:` and `paths:`. Everything else becomes a skill through `claude/skills-manifest.json`.
