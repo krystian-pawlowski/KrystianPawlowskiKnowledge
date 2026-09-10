@@ -1,5 +1,5 @@
 ---
-description: "Krystian's Mac: workspace map and which SOLARSPLIT repos are cloned, git identity, the GitHub account and how the gh CLI authenticates git, what Claude Code shells can and cannot reach (no ~/.ssh), the Android and Xcode toolchains, the Claude Code and Cursor context layers installed here and how to reinstall them, how to add a personal rule or skill. Load for any task about paths, git or GitHub access, CLI tooling, or the context setup on this machine."
+description: "Krystian's Mac: workspace map and which SOLARSPLIT repos are cloned, git identity, the GitHub account and how the gh CLI authenticates git, what Claude Code shells can and cannot reach (no ~/.ssh), the Android and Xcode toolchains, the Claude Code, Cursor and Codex context layers installed here and how to reinstall them, how to add a personal rule or skill. Load for any task about paths, git or GitHub access, CLI tooling, or the context setup on this machine."
 alwaysApply: false
 ---
 
@@ -50,11 +50,11 @@ Set up 09.09.2026.
 ## 4. Toolchains
 
 - **Xcode** in `/Applications`, its bundled git is the system git and carries the `osxkeychain` credential helper.
-- **Android.** No system JDK, `/usr/libexec/java_home` finds nothing. Android Studio 2026.1 bundles JBR 25 at `/Applications/Android Studio.app/Contents/jbr/Contents/Home`. The SDK is `~/Library/Android/sdk`, declared in `SolarsplitAndroid/local.properties` (gitignored). For CLI Gradle in `SolarsplitAndroidApp/SolarsplitAndroid/`, export `JAVA_HOME` to that JBR and `ANDROID_HOME` to the SDK; Gradle 9.1 then provisions Temurin 17 into `~/.gradle/jdks/` through foojay-resolver-convention 1.0.0. Once the caches are warm, `./gradlew <task> --offline --console=plain` runs inside the Claude Code sandbox, a manifest merge or a module compile takes about 25 s.
+- **Android.** No system JDK, `/usr/libexec/java_home` finds nothing. Android Studio 2026.1 bundles JBR 25 at `/Applications/Android Studio.app/Contents/jbr/Contents/Home`. The SDK is `~/Library/Android/sdk`, declared in `SolarsplitAndroid/local.properties` (gitignored). For CLI Gradle in `SolarsplitAndroidApp/SolarsplitAndroid/`, export `JAVA_HOME` to that JBR and `ANDROID_HOME` to the SDK. Gradle 9.1 then provisions Temurin 17 into `~/.gradle/jdks/` through foojay-resolver-convention 1.0.0. Once the caches are warm, `./gradlew <task> --offline --console=plain` runs inside the Claude Code sandbox, a manifest merge or a module compile takes about 25 s.
 
 ## 5. Context layers installed on this machine
 
-The same rules feed Claude Code and Cursor, and could feed Codex, as `agent-context-mechanics` describes. State on 09.09.2026, after the reinstall of that day.
+The same rules feed Claude Code, Cursor and, since 09.09.2026, Codex, as `agent-context-mechanics` describes. State on 10.09.2026.
 
 **Claude Code, `~/.claude/`**
 
@@ -68,11 +68,11 @@ The same rules feed Claude Code and Cursor, and could feed Codex, as `agent-cont
 
 `~/solarsplit-dev/CLAUDE.md` loads on top of that in every session opened under the workspace root. Cap on the permanent layer: 50 KB cumulated. The personal setup script prints the current figure at the end of every run, the reference measurement is the script of `agent-context-mechanics` section 8, to run from `code/`.
 
-**Hooks: none.** `~/.claude/settings.json` has no `hooks` key, so the shared guards (`hook-sync-skills-guard.sh`, `hook-journal-guard.py`, `hook-outbound-guard.py`) are not active here. After editing a rule, run the sync by hand, or the personal setup script, which does it.
+**Hooks in Claude Code: none.** `~/.claude/settings.json` has no `hooks` key, so the shared guards (`hook-sync-skills-guard.sh`, `hook-journal-guard.py`, `hook-outbound-guard.py`) are not active in Claude Code sessions. After editing a rule, run the syncs by hand, or the personal setup script, which runs the Claude Code sync but not the Codex one. The same guards are active in Codex sessions through `~/.codex/hooks.json`, see below. Nothing on this machine redirects or captures shell output, checked on 10.09.2026 across settings, hooks, shell startup files and the session transcripts of both tools.
 
 **Cursor, workspace root `~/solarsplit-dev/.cursor/rules/`.** One `.mdc` symlink per rule, shared and personal. Neither setup script links the shared rules for Cursor, the loop is in `~/solarsplit-dev/CLAUDE.md` and in the README of SolarsplitKnowledge. Cursor reads the frontmatter at window launch only, reload the window and open a new conversation after any change.
 
-**Codex.** Not installed, no `codex` binary and no `~/.codex`. `python3 SolarsplitKnowledge/scripts/sync-codex-layer.py --write` would produce `AGENTS.md`, `hooks.json` and the skill links from the same sources, personal dispatcher included, since it deduces the permanent layer from `~/.claude/rules/`.
+**Codex, `~/.codex/` and `~/.agents/skills/`.** Installed on 09.09.2026 with the ChatGPT desktop app (26.903.61454), which bundles Codex CLI 0.153.4 at `/Applications/ChatGPT.app/Contents/Resources/codex`. Nothing on the PATH, so `command -v codex` fails and that is expected. The layer was generated the same day by `python3 ~/solarsplit-dev/code/SolarsplitKnowledge/scripts/sync-codex-layer.py --write`, three derived artifacts never edited by hand: `~/.codex/AGENTS.md` carries the permanent layer deduced from `~/.claude/rules/`, personal dispatcher included, `~/.agents/skills/<name>` links every skill of both manifests, `workstation-setup` included, and `~/.codex/hooks.json` runs the shared guards through `codex-hook-adapter.py` on PreToolUse, UserPromptSubmit, SessionStart, PostToolUse and Stop. The personal setup script does not regenerate them, so after any change to a permanent rule or to a manifest run the Codex sync by hand, without `--write` first, it reports the drift and exits 2 when there is one. `~/.codex/config.toml` belongs to the app, trust level `trusted` on `~/solarsplit-dev`, no SOLARSPLIT content in it.
 
 **Shared CLIs not installed here.** `swlogs` is not on the PATH and `~/.config/swlogs/` does not exist, `~/.local/bin` does not exist either, and there is no `~/.config/ssapi`. The skills `solarsplit-ops` and `solarsplit-api` describe their installation when needed.
 
@@ -92,7 +92,7 @@ This repo mirrors SolarsplitKnowledge: `.cursor/rules/*.md` with `.mdc` symlinks
 1. Write `.cursor/rules/<name>.md` with a quoted `description` in the frontmatter. `alwaysApply: false` for a skill, `globs:` plus `paths:` for a path-scoped rule, `alwaysApply: true` only for the dispatcher.
 2. `cd .cursor/rules && ln -s <name>.md <name>.mdc`, relative.
 3. For a skill, add `"<name>": "<name>"` to `claude/skills-manifest.json`. Key is the skill name, value the rule file name without extension.
-4. `sh scripts/setup-claude-code-personal.sh`. It links the dispatcher and the path-scoped rules into `~/.claude/rules/`, runs the shared sync that generates `SKILL.md` and the relative `rule.md`, links the skill into `~/.claude/skills/`, links the `.mdc` into the Cursor workspace root, checks the frontmatter and verifies that every link resolves to a `.md`.
+4. `sh scripts/setup-claude-code-personal.sh`. It links the dispatcher and the path-scoped rules into `~/.claude/rules/`, runs the shared sync that generates `SKILL.md` and the relative `rule.md`, links the skill into `~/.claude/skills/`, links the `.mdc` into the Cursor workspace root, checks the frontmatter and verifies that every link resolves to a `.md`. Then `python3 ~/solarsplit-dev/code/SolarsplitKnowledge/scripts/sync-codex-layer.py --write` for the `~/.agents/skills/` link, the personal script does not run it.
 5. Add a row to the routing table of the dispatcher, commit, reload Cursor, open a new Claude Code session.
 
 Frontmatter check by hand, the one Claude Code performs silently and fatally:
@@ -107,8 +107,9 @@ Never write an absolute path of this machine in a `SKILL.md` or `BODY.md`. The g
 
 | Item | Where to check |
 |---|---|
-| No GitHub remote yet for this repo nor for `KrystianPawlowskiSessionLog`, account to choose first, `gh repo create` works from here now | `git -C ~/solarsplit-dev/code/KrystianPawlowskiKnowledge remote -v`, same for `KrystianPawlowskiSessionLog` |
-| Hooks not installed, sync scripts run by hand | `~/.claude/settings.json`, key `hooks` |
+| This repo has its `origin` on the work account over HTTPS, `KrystianPawlowskiSessionLog` has no GitHub remote yet, `gh repo create` works from here | `git -C ~/solarsplit-dev/code/KrystianPawlowskiSessionLog remote -v` |
+| Claude Code hooks not installed, Claude sync by the personal script, Codex sync by hand | `~/.claude/settings.json`, key `hooks`, and `python3 ~/solarsplit-dev/code/SolarsplitKnowledge/scripts/sync-codex-layer.py` |
 | `swlogs` and `ssapi` not installed | `command -v swlogs`, `ls ~/.config/swlogs ~/.config/ssapi` |
-| Codex not installed, layer not generated | `command -v codex`, `ls ~/.codex` |
+| Personal setup script does not run `sync-codex-layer.py`, to add or keep by hand | `grep -n codex scripts/setup-claude-code-personal.sh` |
+| Codex PostToolUse and Stop hooks run the shared journal guard, behaviour with the personal journal repo not yet observed in a Codex session | `~/.codex/hooks.json`, `SolarsplitKnowledge/scripts/hook-journal-guard.py` |
 | Cursor not installed, `.cursor/rules/` links unused until then | `ls /Applications/Cursor.app` |
