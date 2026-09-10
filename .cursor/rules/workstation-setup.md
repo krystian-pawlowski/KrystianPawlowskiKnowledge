@@ -27,9 +27,10 @@ Everything SOLARSPLIT lives under `~/solarsplit-dev/`. There is no `~/Code/GitHu
 | `~/solarsplit-dev/code` | Flat parent of every repo. This is the folder to pass, absolute, to the shared setup script, and the folder the sync scripts deduce from their own location |
 | `~/solarsplit-dev/code/SolarsplitAndroidApp` | Android app. Its rule `solarsplit-android` lives in SolarsplitKnowledge like the iOS ones since 09.09.2026, the repo carries no rule of its own |
 | `~/solarsplit-dev/code/SolarsplitWorkspace.xcworkspace` | Xcode workspace over the Swift repos |
+| `~/solarsplit-dev/code/KrystianPawlowskiSessionLog` | Session journal, personal tier, created locally on 10.09.2026, no remote yet. One file per session under `sessions/`, conventions in its README. Low risk in the sense of `solarsplit-core` section 3: no auto-deploy, a single reader. The shared journal of SolarsplitKnowledge is not written from this machine, the personal dispatcher carries the rule |
 | `~/solarsplit-dev/old/solarsplitWebFrontend[old]` | Former repo of the personal GitHub account, parked, not in use |
 
-Cloned in `code/` on 09.09.2026: `SolarsplitKnowledge`, `KrystianPawlowskiKnowledge`, `SolarsplitWeb`, `SolarsplitWebClient`, `SOLARSPLITiOS`, `SolarsplitShared`, `SolarsplitAndroidApp`, `SolarsplitCapacitorShell`, `Clupi`. Everything else in the shared workspace map (`solarsplit-web-landing`, the `Helvet*` and `Solarsplit*` Swift packages, `SOLARSPLITRoofMetrics`, `SOLARSPLIT_COMMUNITY`, `SOLARSPLIT_MONITORING`, `SolarsplitMedia`, `SolarsplitPrivate`, Wilfried's personal repos) is not on this machine. Re-check with `ls ~/solarsplit-dev/code`.
+Cloned in `code/` on 09.09.2026: `SolarsplitKnowledge`, `KrystianPawlowskiKnowledge`, `SolarsplitWeb`, `SolarsplitWebClient`, `SOLARSPLITiOS`, `SolarsplitShared`, `SolarsplitAndroidApp`, `SolarsplitCapacitorShell`, `Clupi`. `KrystianPawlowskiSessionLog` was created locally on 10.09.2026, it is not a clone. Everything else in the shared workspace map (`solarsplit-web-landing`, the `Helvet*` and `Solarsplit*` Swift packages, `SOLARSPLITRoofMetrics`, `SOLARSPLIT_COMMUNITY`, `SOLARSPLIT_MONITORING`, `SolarsplitMedia`, `SolarsplitPrivate`, Wilfried's personal repos) is not on this machine. Re-check with `ls ~/solarsplit-dev/code`.
 
 ## 2. Git identity
 
@@ -106,7 +107,7 @@ Never write an absolute path of this machine in a `SKILL.md` or `BODY.md`. The g
 
 | Item | Where to check |
 |---|---|
-| No GitHub remote for this repo yet, account to choose first; `gh repo create` works from here now | `git -C ~/solarsplit-dev/code/KrystianPawlowskiKnowledge remote -v` |
+| No GitHub remote yet for this repo nor for `KrystianPawlowskiSessionLog`, account to choose first, `gh repo create` works from here now | `git -C ~/solarsplit-dev/code/KrystianPawlowskiKnowledge remote -v`, same for `KrystianPawlowskiSessionLog` |
 | Hooks not installed, sync scripts run by hand | `~/.claude/settings.json`, key `hooks` |
 | `swlogs` and `ssapi` not installed | `command -v swlogs`, `ls ~/.config/swlogs ~/.config/ssapi` |
 | Codex not installed, layer not generated | `command -v codex`, `ls ~/.codex` |

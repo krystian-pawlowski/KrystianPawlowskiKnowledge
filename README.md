@@ -35,6 +35,10 @@ Then open a new Claude Code session. In Cursor, reload the window and open a new
 
 The rules that protect against silent failures are the shared ones: quote `globs` and any `description` containing `: `, keep the real file in `.md`, never write an absolute machine path in a generated skill. The setup script checks the frontmatter and the link targets each time it runs. Diagnosis of anything that does not load: shared skill `agent-context-mechanics`.
 
+## Session journal
+
+Session entries go neither here nor in the shared journal of SolarsplitKnowledge. They live in a second personal-tier repo, `~/solarsplit-dev/code/KrystianPawlowskiSessionLog`, one file per session, conventions in its own README. The dispatcher carries the rule, this README only points to it.
+
 ## Confidentiality
 
 This repo is never cloned by anyone else and is never referenced in a shared repo beyond its name, which the shared workspace map tolerates. The names of its rule files stay here, in a shared repo write "the personal dispatcher". Nothing here is copied into `SolarsplitKnowledge` or a product repo, and nothing from Wilfried's CEO or personal tiers exists on this machine.
