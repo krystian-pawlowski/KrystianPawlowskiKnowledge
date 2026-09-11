@@ -9,7 +9,7 @@ Krystian's Mac: workspace map and which SOLARSPLIT repos are cloned, git identit
 
 ## Reference complete
 
-Fichier source, 12 KB : `rule.md`, dans ce dossier de skill.
+Fichier source, 15 KB : `rule.md`, dans ce dossier de skill.
 C'est un lien relatif vers `KrystianPawlowskiKnowledge/.cursor/rules/workstation-setup.md`, valable sur toute machine.
 
 Lire ce fichier quand la tache le demande.
