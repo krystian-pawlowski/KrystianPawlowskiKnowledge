@@ -96,6 +96,8 @@ sh ~/solarsplit-dev/code/KrystianPawlowskiKnowledge/scripts/setup-claude-code-pe
 
 The argument of the first script must be absolute, a relative path yields links that resolve from `~/.claude/rules/` and are all broken. Both scripts print a verification of every target at the end, read it rather than assume it passed.
 
+The Workbench's **Context** panel shows this whole state at a glance, checks first, and runs the same scripts: Update (a fast-forward pull, then both setup scripts and the Codex sync), Install, Sync, plus the guard tests and the team's audit in its menu. After a pull of SolarsplitKnowledge, Install or Update is still needed: the syncs report 0 gaps while new skills stay unlinked. Seen on 01.10.2026, the pull of the afternoon had left `install-funnel-operations`, `patrimoine-rdppf` and `roof-model-3d` out of `~/.claude/skills` until the panel's Update linked them that evening.
+
 ## 6. Adding a personal rule or skill
 
 This repo mirrors SolarsplitKnowledge: `.cursor/rules/*.md` with `.mdc` symlinks, `claude/skills-manifest.json`, generated `claude/skills/<name>/`, `scripts/`. The shared `sync-claude-skills.py` discovers this repo through its manifest because both repos share a parent folder, so no shared file has to know this repo exists.
