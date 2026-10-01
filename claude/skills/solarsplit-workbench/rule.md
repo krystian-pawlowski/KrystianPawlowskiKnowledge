@@ -1,0 +1,1 @@
+../../../.cursor/rules/solarsplit-workbench.md

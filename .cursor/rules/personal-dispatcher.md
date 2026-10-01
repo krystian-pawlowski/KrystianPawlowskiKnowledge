@@ -65,6 +65,7 @@ Same mechanics as `solarsplit-core` section 6. Claude Code: a skill, triggered b
 | Resource | Load when the task touches |
 |---|---|
 | `workstation-setup` | Paths and cloned repos on this Mac, git identity, the GitHub account and how `gh` authenticates git, what Claude Code shells cannot reach, the Android and Xcode toolchains, the Claude Code and Cursor layers installed here and how to reinstall them, how to add a personal rule or skill, the local backend database and how to sign into the local web client without an OTP mail |
+| `solarsplit-workbench` | Building or testing a product repository, before any `swift build`, `swift test`, `xcodebuild`, `gradlew` or `npm run build`, creating or removing a worktree, a server in a worktree, what the other agents run on this Mac: the Workbench's `wb` CLI, its build queue and its session hook. A personal copy until the team version merges into SolarsplitKnowledge |
 
 ## 8. Maintaining this repo
 
