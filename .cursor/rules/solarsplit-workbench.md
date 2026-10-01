@@ -54,10 +54,12 @@ Les options que `wb` ne connaît pas vont au script : `wb build backend --tests`
 
 ## 3. La file d'attente
 
-- Une build ou un test prend une place libre, dans l'ordre des demandes, et attend aussi les builds lancées hors de `wb` (Xcode, un terminal, un agent qui lance `swift build` lui-même). L'attente dit ce qu'elle attend et à quelle session c'est.
+- Une build ou un test prend une place libre, dans l'ordre des demandes, et attend aussi les builds lancées hors de la file (Xcode, un agent qui lance `swift build` lui-même). L'attente dit ce qu'elle attend et à quelle session c'est.
+- **Les scripts `run-*.py` rejoignent la file d'eux-mêmes** dès qu'ils compilent : les boutons Start, Run et Build de l'app, les tests du backend, un script lancé dans un terminal ou par un agent attendent leur tour comme `wb`, enregistrés comme ses runs. `wb` leur passe `WB_RUN` pour dire qu'il tient déjà le tour. Un lint part tout de suite.
 - Nombre de places : réglage **Builds at a time** de l'app ou `wb config --slots N|auto`, `WB_SLOTS` pour une commande. Automatique : une place par quatre cœurs et par 8 Go de mémoire, le plus petit des deux, de 1 à 4. Une place sur une VM à 4 cœurs et 10 Go, trois sur un MacBook Pro à 12 cœurs et 36 Go.
-- **Lancer `wb` en arrière-plan** (Claude Code : `run_in_background`) : une attente dépasse facilement le délai d'un appel d'outil. Arrêter `wb` (Ctrl-C, SIGTERM) arrête proprement la build derrière lui, en file comme en cours.
-- `--no-wait` saute la file, seulement à la demande explicite de l'utilisateur.
+- **Lancer `wb`, ou un script `run-*.py` qui builde, en arrière-plan** (Claude Code : `run_in_background`) : une attente dépasse facilement le délai d'un appel d'outil. L'arrêter (Ctrl-C, SIGTERM) sort proprement la build de la file, ou l'arrête si elle tourne.
+- `--no-wait` saute la file, `WB_NO_WAIT=1` pour un script, seulement à la demande explicite de l'utilisateur. Dans l'app, **Start now** fait de même, dans l'en-tête d'un service en attente et sur une ligne en file du panneau Activity.
+- Chaque panneau de service de l'app montre sous ses options ce qui tourne ailleurs sur son repo : les builds, tests et serveurs des autres worktrees ou des agents, et les builds en file.
 
 ## 4. Sortie pour un agent
 
