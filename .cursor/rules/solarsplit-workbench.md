@@ -51,7 +51,8 @@ Pas sur le PATH par défaut : `python3 <dossier des repos>/SolarsplitWorkbench/s
 | `wb ps`, `wb runs`, `wb logs <run>` | ce qui tourne et la file, sous chaque session de l'app Claude le lien qui l'y ouvre, les runs récents, la sortie entière d'un run |
 | `wb config [--slots N\|auto]` | combien de builds à la fois |
 | `wb topic list\|new\|use\|show\|add` | les sujets, le travail d'un thème dans plusieurs repos, voir section 6 |
-| `wb topic plan [sujet]` | ses vérifications et l'ordre de fusion, ce qui retient chaque branche, `--json` pour un agent |
+| `wb topic plan [sujet]` | ses vérifications et ce qui reste à fusionner dans l'ordre, ce qui retient chaque branche, `--json` pour un agent |
+| `wb topic tidy <sujet>` | supprime sur ce Mac ses branches fusionnées extraites nulle part, gardées au sujet comme fusionnées, origin intact |
 | `wb topic setup\|build\|run\|stop\|clean <sujet>` | ses worktrees liés dans son dossier, buildés dans l'ordre, servis ensemble, retirés une fois poussés |
 
 Les options que `wb` ne connaît pas vont au script : `wb build backend --tests` (`swift build --build-tests`), `wb build ios --env staging`, `--clean`, `--shared <dossier>`.
@@ -93,6 +94,7 @@ Un sujet regroupe le travail d'un même thème dans plusieurs repos, une fonctio
 - **Avant de fusionner** : `wb topic plan <sujet>` donne ses branches dans l'ordre de fusion, Shared d'abord, que les apps résolvent sur main, puis le backend, puis les clients, chacune avec sa pull request, son état et ce qui la retient. Il signale un backend ou un iOS dont le `Package.resolved` commité pinne SolarsplitShared sans le travail Shared du sujet, ou sur un commit absent du main de Shared : une fois Shared fusionné, mettre le pin à la tête de main à la main (gotcha #35). Ses vérifications disent aussi une build qui n'a pas pris le Shared du sujet, une build plus ancienne que les derniers commits, un web client branché sur un autre backend que celui du sujet. `wb topic show` finit par ces vérifications.
 - **Pour suivre une build** : l'app ouvre chaque build, test ou serveur dans une fenêtre, sa progression, son log et ses erreurs, depuis Activity, le bandeau Also on… d'un service ou le bloc Builds and servers d'un sujet. En ligne de commande, `wb logs <run> -f`.
 - **Quand le travail est poussé** : `wb topic clean <sujet>` retire les worktrees de son dossier comme `wb worktree remove`, branches et sujet gardés.
+- **Quand tout est fusionné** : une branche compte comme fusionnée quand sa pull request l'est, squash compris, ou quand elle est entrée dans son tronc en fast-forward sans pull request (tous ses commits dans le tronc, et son reflog montre des commits à elle depuis sa création). `wb topic show` et le panneau replient les branches fusionnées en une ligne, `wb topic tidy <sujet>` les supprime sur ce Mac, puis `wb topic archive <sujet>`.
 - **Pour reprendre un sujet** : `wb topic show <sujet>` donne ses branches dans chaque repo, leurs worktrees, pull requests et checks, les sessions et les derniers runs. C'est le point de départ d'une session qui prend la suite d'une autre.
 - **La session est reconnue sans rien faire** : `CLAUDE_CODE_SESSION_ID` dans Claude Code, `CODEX_THREAD_ID` dans Codex, sinon le shell sous Cursor, VS Code ou l'onglet du terminal. `WB_TOPIC=<sujet>` fixe le sujet d'une commande ou d'un shell.
 - Les sujets sont propres au Mac, dans `topics.json` à côté des runs. L'app les crée, les renomme, les fusionne et les archive par les mêmes commandes.
