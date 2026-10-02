@@ -44,6 +44,7 @@ Pas sur le PATH par défaut : `python3 <dossier des repos>/SolarsplitWorkbench/s
 | Commande | Fait |
 |---|---|
 | `wb build backend\|ios\|android\|webclient\|landing\|workbench` | build du checkout du dossier courant, sinon `--worktree DIR`, sinon le checkout principal. `workbench` : la Workbench elle-même, `--release` pour celle que `make-app.sh` empaquette, qui passe aussi par là |
+| `wb run workbench [--harness DIR]`, `wb stop workbench` | la Workbench d'un checkout buildée à son tour puis ouverte, à la place de celle qu'il avait ouverte, arrêtée par le pid enregistré. Jamais un `kill` par nom : il atteint aussi le compilateur d'une autre session |
 | `wb test backend [--filter REGEX] [--skip-build]` | les suites XCTest, résultats par test |
 | `wb run backend\|webclient\|landing`, `wb stop …` | serveur du checkout sur son port, le backend buildé d'abord dans la file |
 | `wb worktree create <app\|repo> <branche>` | worktree prêt à builder, voir section 5 |
