@@ -9,7 +9,7 @@ SOLARSPLIT Workbench et son CLI wb pour les agents : builds et tests en file d'a
 
 ## Reference complete
 
-Fichier source, 21 KB : `rule.md`, dans ce dossier de skill.
+Fichier source, 25 KB : `rule.md`, dans ce dossier de skill.
 C'est un lien relatif vers `KrystianPawlowskiKnowledge/.cursor/rules/solarsplit-workbench.md`, valable sur toute machine.
 
 Lire ce fichier quand la tache le demande.
